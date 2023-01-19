@@ -43,11 +43,49 @@ class Main
         
         case input[0].upcase
         
-
+        #need check if matrix is created before doing other operations
         when "I"
-            @@m = Matrix.build(input[1].to_i, input[2].to_i) { |row, column| "0" }
+           if (1..250).include?(input[1].to_i) && (1..250).include?(input[2].to_i)
+            @@m = Matrix.build(input[2].to_i, input[1].to_i) { |row, column| "0" }
+           else
+            puts "Out of range (1-250)!"
+           end
         when "L"
-            @@m[input[1].to_i, input[2].to_i] = input[3].to_s
+            @@m[input[2].to_i - 1, input[1].to_i - 1] = input[3].to_s
+        when "V"
+            @@m.each_with_index do |e, row, col|
+                if col == input[1].to_i 
+                    if row >= input[2].to_i
+                        if row <= input[3].to_i
+                            @@m[row-1,col-1] = input[4].to_s
+                        end
+                    end
+                end
+            end
+
+        when "H"
+            @@m.each_with_index do |e, row, col|
+                if row == input[3].to_i 
+                    if col >= input[1].to_i
+                        if col <= input[2].to_i
+                            @@m[row-1,col-1] = input[4].to_s
+                        end
+                    end
+                end
+            end
+        when "F"
+            original_colour = @@m[input[2].to_i - 1, input[1].to_i - 1]
+            @@m[input[2].to_i - 1, input[1].to_i - 1] = input[3].to_s
+            #need rework for common side request
+            @@m.each_with_index do |e, row, col|
+                if (e == original_colour)
+                    @@m[row,col] = input[3].to_s
+                end
+            end
+        when "C"
+            @@m.each_with_index do |e, row, col|
+                @@m[row,col] = "0"
+            end
         when "S"
             @@m.to_readable
         when "X"
