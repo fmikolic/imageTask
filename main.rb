@@ -1,14 +1,5 @@
 require "matrix"
 
-#build empty matrix with MxN Populate with O colour
-#m = Matrix.build(3, 2) { |row, column| "0" }
-
-
-#write out all variables in matrix with their coordinates in matrix
-#m.each_with_index do |e, row, col|
-#    puts "(#{row}, #{col}) value - #{e.is_a?(String)}"
-#end
-
 class Matrix
     def to_readable
         i = 0
@@ -20,6 +11,20 @@ class Matrix
             i = 0
             end
         end
+    end
+end
+
+class FloodFill
+    def floodFill(matrix, row, col, oldColour, newColour)
+        if row < 0 || row >= matrix.to_a.length || col < 0 || col >= matrix.to_a[0].length || matrix[row, col] == newColour || matrix[row, col] != oldColour
+            return
+        end
+        matrix[row, col] = newColour
+
+        floodFill(matrix, row + 1, col, oldColour, newColour)
+        floodFill(matrix, row - 1, col, oldColour, newColour)
+        floodFill(matrix, row, col + 1, oldColour, newColour)
+        floodFill(matrix, row, col - 1, oldColour, newColour)
     end
 end
 
@@ -90,20 +95,17 @@ class Main
             if @@m.nil?
                 puts "Create image with I command"
             else
-                original_colour = @@m[input[2].to_i - 1, input[1].to_i - 1]
-                @@m[input[2].to_i - 1, input[1].to_i - 1] = input[3].to_s
-                #need rework for common side request
-                    
-                # @@m.to_a.each do |a|
-                    
-                #     p a
-                # end
+                x = input[2].to_i - 1
+                y = input[1].to_i - 1
+                original_colour = @@m[x, y]
+                new_colour = input[3].to_s
 
-                @@m.each_with_index do |e, row, col|
-                    if e == original_colour
-                        @@m[row,col] = input[3].to_s
-                    end
+                if original_colour == new_colour
+                    return
                 end
+
+                FloodFill.new.floodFill(@@m, x, y, original_colour, new_colour)
+
             end
         when "C"
             if @@m.nil?
