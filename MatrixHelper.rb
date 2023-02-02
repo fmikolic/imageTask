@@ -1,7 +1,51 @@
-require_relative 'floodFill'
+require_relative 'FloodFill'
+require "matrix"
 
 class MatrixHelper
+    attr_reader :input
+    attr_reader :matrix
+
+    def initialize(input, matrix)
+      @input = input
+      @matrix = matrix
+    end
+
+
+    def createMatrix
+        create(@input)
+    end
+
+    def colourPixelInMatrix
+        colourPixel(@input, @matrix)
+    end
+
+    def colourVerticalSegment
+        verticalSegment(@input, @matrix)
+    end
+
+    def colourHorizontalSegment
+        horizontalSegment(@input, @matrix)
+    end
+
+    def colourArea
+        fillArea(@input, @matrix)
+    end
+
+    def resetMatrix
+        clearMatrix(@matrix)
+    end
+
+    def showMatrix
+        printMatrix(@matrix)
+    end
+
+    private
+
     def create(input)
+        if input.length != 3
+            return puts "Wrong number of parameters!"
+        end
+
         if (1..250).include?(input[1].to_i) && (1..250).include?(input[2].to_i)
             Matrix.build(input[2].to_i, input[1].to_i) { |row, column| "0" }
         else

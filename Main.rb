@@ -1,5 +1,5 @@
 require "matrix"
-require_relative 'matrixHelper'
+require_relative 'MatrixHelper'
 
 class Matrix
     def to_readable
@@ -35,30 +35,32 @@ class Main
             puts "Empty input!"
             break
         end
-        helper = MatrixHelper.new
+        helper = MatrixHelper.new(input, @@m)
         
         case input[0].upcase
         
         when "I"
-            @@m = helper.create(input)
+            @@m = helper.createMatrix
         when "L"
-            helper.colourPixel(input, @@m)
+            helper.colourPixelInMatrix
         when "V"
-            helper.verticalSegment(input, @@m)
+            helper.colourVerticalSegment
         when "H"
-            helper.horizontalSegment(input, @@m)
+            helper.colourHorizontalSegment
         when "F"
-            helper.fillArea(input, @@m)
+            helper.colourArea
         when "C"
-            helper.clearMatrix(@@m)
+            helper.resetMatrix
         when "S"
-            helper.printMatrix(@@m)
+            helper.showMatrix
         when "X"
             exit
         else
             puts "Don't know that command!"
+            break
         end
     end
+
 end
 
 class Runner
