@@ -36,6 +36,14 @@ RSpec.describe "Matrix helper" do
             end
         end
 
+        context "wrong number of parameters - empty" do
+            let(:object) { MatrixHelper.new([], []) }   
+
+            it "should return Wrong number of parameters warning" do
+                expect{object.createMatrix}.to output("Wrong number of parameters!\n").to_stdout
+            end
+        end
+
         context "wrong number of parameters - combination letters numbers" do
             let(:object) { MatrixHelper.new(["h", "n", "45", "0"], []) }   
 
