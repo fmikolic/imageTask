@@ -54,8 +54,13 @@ class MatrixHelper
     end
 
     def colourPixel(input, matrix)
-        if matrix.nil? || input[3].to_s.empty?
-            puts "Create image with I command or empty new colour"
+
+        if matrix.nil? || input.length != 4
+            return puts "Create image with I command or input not correct"
+        end
+
+        if matrix[input[2].to_i-1, input[1].to_i-1]
+            raise IndexError
         else
             matrix[input[2].to_i - 1, input[1].to_i - 1] = input[3].to_s
         end
