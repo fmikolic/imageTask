@@ -1,6 +1,12 @@
 require_relative 'FloodFill'
 require "matrix"
 
+class String
+    def is_integer?
+      self.to_i.to_s == self
+    end
+end
+
 class MatrixHelper
     attr_reader :input
     attr_reader :matrix
@@ -59,22 +65,37 @@ class MatrixHelper
             return puts "Create image with I command or input not correct"
         end
 
+        if !input[2].is_integer? || !input[1].is_integer?
+            return puts "Coordinates aren't numbers!"
+        end
+
         if matrix[input[2].to_i-1, input[1].to_i-1]
-            raise IndexError
-        else
             matrix[input[2].to_i - 1, input[1].to_i - 1] = input[3].to_s
+            matrix
+        else
+            raise IndexError
         end
     end
     
     def verticalSegment(input, matrix)
-        if matrix.nil? || input[4].to_s.empty?
-            puts "Create image with I command or empty new colour"
+        if matrix.nil? || input.length != 5
+            return puts "Create image with I command or input not correct"
+        end
+
+        if !input[2].is_integer? || !input[1].is_integer? || !input[3].is_integer?
+            return puts "Coordinates aren't numbers!"
+        end
+        
+        if matrix.column_count < input[1].to_i || matrix.row_count < input[2].to_i || 
+            matrix.row_count < input[3].to_i || input[1].to_i <= 0 || input[2].to_i <= 0 || input[3].to_i <= 0
+            raise IndexError
         else
             matrix.each_with_index do |e, row, col|
                 if col == input[1].to_i 
                     if row >= input[2].to_i
                         if row <= input[3].to_i
                             matrix[row-1,col-1] = input[4].to_s
+                            matrix
                         end
                     end
                 end
@@ -83,14 +104,24 @@ class MatrixHelper
     end
 
     def horizontalSegment(input, matrix)
-        if matrix.nil? || input[4].to_s.empty?
-            puts "Create image with I command or empty new colour"
+        if matrix.nil? || input.length != 5
+            return puts "Create image with I command or input not correct"
+        end
+
+        if !input[2].is_integer? || !input[1].is_integer? || !input[3].is_integer?
+            return puts "Coordinates aren't numbers!"
+        end
+        
+        if matrix.column_count < input[1].to_i || matrix.row_count < input[2].to_i || 
+            matrix.row_count < input[3].to_i || input[1].to_i <= 0 || input[2].to_i <= 0 || input[3].to_i <= 0
+            raise IndexError
         else
             matrix.each_with_index do |e, row, col|
                 if row == input[3].to_i 
                     if col >= input[1].to_i
                         if col <= input[2].to_i
                             matrix[row-1,col-1] = input[4].to_s
+                            matrix
                         end
                     end
                 end

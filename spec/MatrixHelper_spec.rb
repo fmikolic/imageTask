@@ -101,8 +101,8 @@ RSpec.describe "Matrix helper" do
 
         context "wrong input variables" do
             subject { MatrixHelper.new(["i", "g", "-h", "K"], matrix)}  
-            it "should raise IndexError" do 
-                expect{subject.colourPixelInMatrix}.to raise_error(IndexError)
+            it "should raise warning that coordinates arent numbers" do 
+                expect{subject.colourPixelInMatrix}.to output("Coordinates aren't numbers!\n").to_stdout
             end
         end
 
@@ -110,6 +110,20 @@ RSpec.describe "Matrix helper" do
             subject { MatrixHelper.new(["i", "2", "2"], matrix)}  
             it "should write image creation and incorrect input warning" do 
                 expect{subject.colourPixelInMatrix}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
+        context "correct input" do
+            
+            let(:object) { MatrixHelper.new(["i", "2", "2", "k"], matrix) }   
+
+            it "should be the same matrixes" do 
+                testMatrix1 = Matrix.build(3, 3) { |row, column| "0" }
+                
+                #because coordinates start from 0 so (2,2) would be (1,1)
+                testMatrix1[1, 1] = "k"
+                colouredMatrix = object.colourPixelInMatrix
+                expect(colouredMatrix.to_a).to eq(testMatrix1.to_a)
             end
         end
 
@@ -121,24 +135,127 @@ RSpec.describe "Matrix helper" do
             end
         end
 
+        
+
+    end
+    
+
+    describe "#colourVerticalSegment" do 
+        matrix = Matrix.build(4, 4) { |row, column| "0" } 
+        #subject { MatrixHelper.new(["i", "5", "5", "K"], matrix)}        
+
+        context "wrong positive coordinates" do
+            subject { MatrixHelper.new(["i", "5", "5", "6", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourVerticalSegment}.to raise_error(IndexError)
+            end
+        end
+
+        context "wrong negative coordinates" do
+            subject { MatrixHelper.new(["i", "-4", "-1", "-2", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourVerticalSegment}.to raise_error(IndexError)
+            end
+        end
+
+        context "wrong input variables" do
+            subject { MatrixHelper.new(["i", "g", "-h", "t", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourVerticalSegment}.to output("Coordinates aren't numbers!\n").to_stdout
+            end
+        end
+
+        context "wrong number of input variables" do
+            subject { MatrixHelper.new(["i", "2", "2"], matrix)}  
+            it "should write image creation and incorrect input warning" do 
+                expect{subject.colourVerticalSegment}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
+        context "matrix not created yet" do
+            emptyMatrix = nil
+            subject { MatrixHelper.new(["i", "2", "2", "2","k"], emptyMatrix)}  
+            it "should write image creation and incorrect input warning" do 
+                expect{subject.colourVerticalSegment}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
         context "correct input" do
             
-            let(:object) { MatrixHelper.new(["i", "2", "2", "k"], matrix) }   
+            let(:object) { MatrixHelper.new(["i", "2", "2", "3", "H"], matrix) }   
 
             it "should be the same matrixes" do 
-                pending "fix coloration"
+                testMatrix1 = Matrix.build(4, 4) { |row, column| "0" }
+                #because coordinates in Matrix start from 0 so (2,2) would be (1,1)
+                #in column 2, colour rows between 2 and 3 with H
+                testMatrix1[1, 1] = "H"
+                testMatrix1[2, 1] = "H"
 
-                testMatrix1 = Matrix.build(3, 3) { |row, column| "0" }
-                #because coordinates start from 0 so (2,2) would be (1,1)
-                testMatrix1[2-1, 2-1] = "k".to_s
-                
-
-                colouredMatrix = object.colourPixelInMatrix
-                pp matrix == testMatrix1
+                colouredMatrix = object.colourVerticalSegment
                 expect(colouredMatrix).to eq(testMatrix1)
             end
         end
 
     end
+
+
+    describe "#colourHorizontalSegment" do 
+        matrix = Matrix.build(4, 4) { |row, column| "0" } 
+
+        context "wrong positive coordinates" do
+            subject { MatrixHelper.new(["i", "5", "5", "6", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourHorizontalSegment}.to raise_error(IndexError)
+            end
+        end
+
+        context "wrong negative coordinates" do
+            subject { MatrixHelper.new(["i", "-4", "-1", "-2", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourHorizontalSegment}.to raise_error(IndexError)
+            end
+        end
+
+        context "wrong input variables" do
+            subject { MatrixHelper.new(["i", "g", "-h", "t", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourHorizontalSegment}.to output("Coordinates aren't numbers!\n").to_stdout
+            end
+        end
+
+        context "wrong number of input variables" do
+            subject { MatrixHelper.new(["i", "2", "2"], matrix)}  
+            it "should write image creation and incorrect input warning" do 
+                expect{subject.colourHorizontalSegment}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
+        context "matrix not created yet" do
+            emptyMatrix = nil
+            subject { MatrixHelper.new(["i", "2", "2", "2","k"], emptyMatrix)}  
+            it "should write image creation and incorrect input warning" do 
+                expect{subject.colourHorizontalSegment}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
+        context "correct input" do
+            
+            let(:object) { MatrixHelper.new(["i", "2", "3", "2", "H"], matrix) }   
+
+            it "should be the same matrixes" do 
+                testMatrix1 = Matrix.build(4, 4) { |row, column| "0" }
+                #because coordinates in Matrix start from 0 so (2,2) would be (1,1)
+                #in row 2, colour columns between 2 and 3 with H
+                testMatrix1[1, 1] = "H"
+                testMatrix1[1, 2] = "H"
+
+                colouredMatrix = object.colourHorizontalSegment
+                expect(colouredMatrix).to eq(testMatrix1)
+            end
+        end
+
+    end
+
+    
     
 end
