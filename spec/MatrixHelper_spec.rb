@@ -256,6 +256,63 @@ RSpec.describe "Matrix helper" do
 
     end
 
-    
+    describe "#colourArea" do 
+        matrix = Matrix.build(4, 4) { |row, column| "0" } 
+
+        context "wrong positive coordinates" do
+            subject { MatrixHelper.new(["i", "5", "5", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourArea}.to raise_error(IndexError)
+            end
+        end
+
+        context "wrong negative coordinates" do
+            subject { MatrixHelper.new(["i", "-4", "-1", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourArea}.to raise_error(IndexError)
+            end
+        end
+
+        context "wrong input variables" do
+            subject { MatrixHelper.new(["i", "g", "-h", "K"], matrix)}  
+            it "should raise IndexError" do 
+                expect{subject.colourArea}.to output("Coordinates aren't numbers!\n").to_stdout
+            end
+        end
+
+        context "wrong number of input variables" do
+            subject { MatrixHelper.new(["i", "2", "2"], matrix)}  
+            it "should write image creation and incorrect input warning" do 
+                expect{subject.colourArea}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
+        context "matrix not created yet" do
+            emptyMatrix = nil
+            subject { MatrixHelper.new(["i", "2", "2", "2","k"], emptyMatrix)}  
+            it "should write image creation and incorrect input warning" do 
+                expect{subject.colourArea}.to output("Create image with I command or input not correct\n").to_stdout
+            end
+        end
+
+        context "correct input" do
+            
+            let(:object) { MatrixHelper.new(["i", "2", "2", "H"], matrix) }   
+
+            it "should be the same matrixes" do 
+                pending "waiting implementation"
+
+                testMatrix1 = Matrix.build(4, 4) { |row, column| "0" }
+                #because coordinates in Matrix start from 0 so (2,2) would be (1,1)
+                #in column 2, colour rows between 2 and 3 with H
+                testMatrix1[1, 1] = "H"
+                testMatrix1[2, 1] = "H"
+
+                colouredMatrix = object.colourArea
+                expect(colouredMatrix).to eq(testMatrix1)
+            end
+        end
+
+    end
     
 end

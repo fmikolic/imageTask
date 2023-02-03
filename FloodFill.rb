@@ -9,5 +9,6 @@ class FloodFill
         floodFill(matrix, row - 1, col, oldColour, newColour)
         floodFill(matrix, row, col + 1, oldColour, newColour)
         floodFill(matrix, row, col - 1, oldColour, newColour)
+        matrix
     end
 end
