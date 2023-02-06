@@ -1,6 +1,22 @@
 require_relative 'FloodFill'
 require "matrix"
 
+
+class Matrix
+    def to_readable
+        i = 0
+        self.each do |number|
+            print number.to_s + " "
+            i+= 1
+            if i == self.column_size
+            print "\n"
+            i = 0
+            end
+        end
+    end
+end
+
+
 class String
     def is_integer?
       self.to_i.to_s == self
@@ -162,6 +178,7 @@ class MatrixHelper
             matrix.each_with_index do |e, row, col|
                 matrix[row,col] = "0"
             end
+            matrix
         end
     end
 

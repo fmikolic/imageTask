@@ -323,5 +323,52 @@ RSpec.describe "Matrix helper" do
         end
 
     end
+
+    describe "#resetMatrix" do 
+        matrix = Matrix.build(4, 4) { |row, column| "0" } 
+        controlMatrix = Matrix.build(4, 4) { |row, column| "0" } 
+
+        context "modified matrix compared with original matrix" do
+            subject { MatrixHelper.new(["test", "2", "2", "3", "K"], matrix)}  
+            it "should be the same matrixes after modification and reseting" do 
+                modifiedMatrixFirst = subject.colourVerticalSegment
+                expect(modifiedMatrixFirst).not_to eq(controlMatrix)
+                newHelper = MatrixHelper.new(["test"], modifiedMatrixFirst)
+                resetedMatrix = newHelper.resetMatrix
+                expect(resetedMatrix).to eq(controlMatrix)
+            end
+        end
+
+        context "empty matrix passed" do 
+            emptyMatrix = nil
+            subject { MatrixHelper.new(["test"], emptyMatrix)}  
+            it "should write image creation warning" do 
+                expect{subject.resetMatrix}.to output("Create image with I command\n").to_stdout
+            end
+        end
+
+    end
+
+    describe "#showMatrix" do 
+        matrix = Matrix.build(3, 3) { |row, column| "0" } 
+
+        context "print out of matrix with monkey patching" do
+            subject { MatrixHelper.new(["test", "2", "2", "3", "K"], matrix)}  
+            it "should be the same matrixes in print out" do 
+                testPrint = "0 0 0 \n0 0 0 \n0 0 0 \n"
+                
+                expect{subject.showMatrix}.to output(testPrint).to_stdout
+            end
+        end
+
+        context "empty matrix passed" do 
+            emptyMatrix = nil
+            subject { MatrixHelper.new(["test"], emptyMatrix)}  
+            it "should write image creation warning" do 
+                expect{subject.showMatrix}.to output("Create image with I command\n").to_stdout
+            end
+        end
+
+    end
     
 end
