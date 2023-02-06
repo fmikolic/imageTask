@@ -296,20 +296,29 @@ RSpec.describe "Matrix helper" do
         end
 
         context "correct input" do
+            matrix[0, 1] = "H"
+            matrix[1, 1] = "H"
+            matrix[2, 1] = "H"
+            matrix[3, 1] = "H"
             
-            let(:object) { MatrixHelper.new(["i", "2", "2", "H"], matrix) }   
+            subject { MatrixHelper.new(["i", "1", "1", "P"], matrix) }   
 
             it "should be the same matrixes" do 
-                pending "waiting implementation"
 
                 testMatrix1 = Matrix.build(4, 4) { |row, column| "0" }
                 #because coordinates in Matrix start from 0 so (2,2) would be (1,1)
                 #in column 2, colour rows between 2 and 3 with H
+                testMatrix1[0, 1] = "H"
                 testMatrix1[1, 1] = "H"
                 testMatrix1[2, 1] = "H"
+                testMatrix1[3, 1] = "H"
 
-                colouredMatrix = object.colourArea
-                expect(colouredMatrix).to eq(testMatrix1)
+                testMatrix1[0, 0] = "P"
+                testMatrix1[1, 0] = "P"
+                testMatrix1[2, 0] = "P"
+                testMatrix1[3, 0] = "P"
+                subject.colourArea
+                expect(subject.matrix).to eq(testMatrix1)
             end
         end
 

@@ -139,7 +139,7 @@ class MatrixHelper
         end
         
         if matrix.column_count < input[1].to_i || matrix.row_count < input[2].to_i || 
-            matrix.row_count < input[3].to_i || input[1].to_i <= 0 || input[2].to_i <= 0 || input[3].to_i <= 0
+            input[1].to_i <= 0 || input[2].to_i <= 0
             raise IndexError
         else
             x = input[2].to_i - 1
@@ -152,7 +152,6 @@ class MatrixHelper
             end
 
             FloodFill.new.floodFill(matrix, x, y, original_colour, new_colour)
-
         end
     end
 
