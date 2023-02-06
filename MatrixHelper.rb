@@ -107,13 +107,9 @@ class MatrixHelper
             raise IndexError
         else
             matrix.each_with_index do |e, row, col|
-                if col == input[1].to_i 
-                    if row >= input[2].to_i
-                        if row <= input[3].to_i
-                            matrix[row-1,col-1] = input[4].to_s
-                            matrix
-                        end
-                    end
+                if col == input[1].to_i && (row >= input[2].to_i && row <= input[3].to_i)
+                    matrix[row-1,col-1] = input[4].to_s
+                    matrix
                 end
             end
         end
@@ -133,13 +129,9 @@ class MatrixHelper
             raise IndexError
         else
             matrix.each_with_index do |e, row, col|
-                if row == input[3].to_i 
-                    if col >= input[1].to_i
-                        if col <= input[2].to_i
-                            matrix[row-1,col-1] = input[4].to_s
-                            matrix
-                        end
-                    end
+                if row == input[3].to_i && (col >= input[1].to_i && col <= input[2].to_i)
+                    matrix[row-1,col-1] = input[4].to_s
+                    matrix
                 end
             end
         end
