@@ -83,7 +83,6 @@ RSpec.describe "Matrix helper" do
 
     describe "#colourPixelInMatrix" do 
         matrix = Matrix.build(3, 3) { |row, column| "0" } 
-        #subject { MatrixHelper.new(["i", "5", "5", "K"], matrix)}        
 
         context "wrong positive coordinates" do
             subject { MatrixHelper.new(["i", "5", "5", "K"], matrix)}  
@@ -142,7 +141,6 @@ RSpec.describe "Matrix helper" do
 
     describe "#colourVerticalSegment" do 
         matrix = Matrix.build(4, 4) { |row, column| "0" } 
-        #subject { MatrixHelper.new(["i", "5", "5", "K"], matrix)}        
 
         context "wrong positive coordinates" do
             subject { MatrixHelper.new(["i", "5", "5", "6", "K"], matrix)}  
